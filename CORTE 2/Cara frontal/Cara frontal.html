@@ -1,0 +1,344 @@
+ <!DOCTYPE html>
+<html>
+  <head>
+    <title>Ej: Cara Frontal</title>
+    <style>
+      html, body { margin: 0; padding: 0; overflow: hidden; }
+    </style>
+  </head>
+  <body>
+    <script src="js/three.js"></script>
+	<script src="js/controls/OrbitControls.js"></script>
+    <script>
+		var scene, aspect, camera, renderer, controls;
+		var startTime = Date.now();
+		var fan;
+		var fan2;
+		var strip;
+		var tapa;
+		
+		class TRIANGLE_FAN{	
+		  constructor( Geometria , Material ){
+		    this.geometria = Geometria;
+			this.material = Material;
+			console.log(this.geometria);
+			console.log(this.material);
+			
+		  }  
+	
+		  draw(){			
+			for( var i=2; i<this.geometria.vertices.length; i++ ){
+			  this.geometria.faces.push( new THREE.Face3(0,i-1,i) );
+			}
+			this.geometria.computeFaceNormals();
+			var fan = new THREE.Mesh( this.geometria, this.material );
+			scene.add( fan );
+			return fan;
+		    
+		}
+		
+		}
+		
+		class TRIANGLE_STRIP{	
+		  constructor( Geometria ){
+		    this.geometria = Geometria;
+			console.log(this.geometria);
+		  }  
+		  draw(){			
+			for( var i=2; i<this.geometria.vertices.length; i++ ){
+			  this.geometria.faces.push( new THREE.Face3(i-2,i-1,i) );
+			}
+			this.geometria.computeFaceNormals();
+			var materialStrip = new THREE.MeshBasicMaterial( { color: 0x3333DD, side:THREE.DoubleSide } );
+			var strip = new THREE.Mesh( this.geometria, materialStrip );
+			scene.add( strip );
+		  }
+		}
+		
+		init();
+		animate();
+	
+		function init(){
+			scene = new THREE.Scene();
+			aspect = window.innerWidth / window.innerHeight;
+			camera = new THREE.PerspectiveCamera( 45, aspect, 0.1, 1000);
+			renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+			controls = new THREE.OrbitControls( camera, renderer.domElement );
+            				  
+			var size = 10;
+			var arrowSize = 1;
+			var divisions = size;
+			var origin = new THREE.Vector3( 0, 0, 0 );
+			var x = new THREE.Vector3( 1, 0, 0 );
+			var y = new THREE.Vector3( 0, 1, 0 );
+		  	var z = new THREE.Vector3( 0, 0, 1 );
+			var color1 = new THREE.Color( 0xFFFFFF );
+		  	var color2 = new THREE.Color( 0x333333 );
+		  	var colorR = new THREE.Color( 0xAA3333 );
+		  	var colorG = new THREE.Color( 0x33AA33 );
+		  	var colorB = new THREE.Color( 0x333366 );
+		  
+		  	//CREAR LAS GRILLAS PARA EL ESCENARIO
+		  	var axesHelper = new THREE.AxesHelper( size );
+		  	var gridHelperXY = new THREE.GridHelper( size, divisions, color1, color1);
+		  	var gridHelperXZ = new THREE.GridHelper( size, divisions, color2, color2 );
+		  	var gridHelperYZ = new THREE.GridHelper( size, divisions, color2, color2 );
+            
+            //ROTARLAS PARA QUE QUEDEN EN EL ESPACIO ADECUADO
+            gridHelperXY.rotateOnWorldAxis ( x, THREE.Math.degToRad(90) );
+            gridHelperXZ.rotateOnWorldAxis ( y, THREE.Math.degToRad(90) );
+            gridHelperYZ.rotateOnWorldAxis ( z, THREE.Math.degToRad(90) );
+            
+            //CREAR LAS FLECHAS QUE INDICAN LOS EJES DE COORDENADAS 3D
+            var arrowX = new THREE.ArrowHelper( x, origin, arrowSize, colorR );
+            var arrowY = new THREE.ArrowHelper( y, origin, arrowSize, colorG );
+            var arrowZ = new THREE.ArrowHelper( z, origin, arrowSize, colorB );
+			
+			//CREAR ILUMINACIÓN
+            var ambient = new THREE.AmbientLight( 0xffffff, 2 );
+            scene.add( ambient );
+            
+            var pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
+            pointLight.position.set( 5, 5, -5 );
+            scene.add( pointLight );
+			
+			//CREAR LAS GEOMETRÍAS
+            //Punto
+
+			var punto = new THREE.Vector3(2,0,0);
+            var punto2 = new THREE.Vector3(1.6,0.5,0.02);
+            var punto3 = new THREE.Vector3(2.4,0.5,0.02);	
+            var punto4 = new THREE.Vector3(2,0.6,0.01);		
+			var punto5 = new THREE.Vector3(2,-0.5,0.01);	
+			var punto6 = new THREE.Vector3(1.85,-0.01,0.01);
+			var punto7 = new THREE.Vector3(2.15,-0.01, 0.01);
+			var punto8 = new THREE.Vector3(1.5,0.8,0.01);
+			var punto9 = new THREE.Vector3(2.5,0.8,0.01);
+			var punto10 = new THREE.Vector3(2.0,-0.8,0.01); 
+			var punto11 = new THREE.Vector3(1.2,-0.6,-0.01); 
+			var punto12 = new THREE.Vector3(2.8,-0.6,-0.01); 	
+			var punto13 = new THREE.Vector3(2,-0.85,0.02); 
+			
+			
+            var cara = new THREE.Geometry();			
+			var ojo_izq = new THREE.Geometry();
+			var ojo_der = new THREE.Geometry();
+			var nariz = new THREE.Geometry();
+			var sombra_nariz = new THREE.Geometry();
+			var sombra_OI = new THREE.Geometry();
+			var sombra_OD = new THREE.Geometry();
+			var ceja_izq = new THREE.Geometry();
+			var ceja_der = new THREE.Geometry();
+			var boca = new THREE.Geometry();
+			var oreja_izq = new THREE.Geometry();
+			var oreja_der = new THREE.Geometry();
+			var tg_aux = new THREE.Geometry();
+			
+			var radio = 1.0;
+			var radio_nariz = 1.5;
+			var radio_cara = 1.0;
+			var radio_ojos = 0.4;
+			var radio_sombraN = 0.2;
+			var radio_sombraO = 2;
+			var radio_aux = 1;
+			var res_cara = 10.0;
+			var res_cejas = 5;
+			var res = 50.0;
+			
+			
+			
+			cara.vertices.push( punto );
+			ojo_izq.vertices.push( punto2 );
+			ojo_der.vertices.push( punto3 );
+			nariz.vertices.push( punto4 );
+			sombra_nariz.vertices.push( punto5 );
+			sombra_OI.vertices.push( punto6 );
+			sombra_OD.vertices.push( punto7 );
+			ceja_izq.vertices.push( punto8 );
+			ceja_der.vertices.push( punto9 );
+			boca.vertices.push(punto10);
+			oreja_izq.vertices.push(punto11);
+			oreja_der.vertices.push(punto12);
+			tg_aux.vertices.push(punto13);
+			
+            for( var i = 0; i <= res; i++){
+                var puntoN = new THREE.Vector3();
+				var puntoOZ = new THREE.Vector3();
+				var puntoOD = new THREE.Vector3();
+				var puntoC = new THREE.Vector3();
+				var puntoSN = new THREE.Vector3(); //Sombra nariz
+				var puntoSOI = new THREE.Vector3(); //Sombra ojo izquierdo
+				var puntoSOD = new THREE.Vector3(); //Sombra ojo derecho
+				var puntoCI = new THREE.Vector3(); 
+				var puntoCD = new THREE.Vector3(); 
+				var puntoB = new THREE.Vector3(); 
+				var puntoORI = new THREE.Vector3(); 
+				var puntoORD = new THREE.Vector3(); 
+				var puntoAUX = new THREE.Vector3(); //Triangulo para auxiliar la boca
+			
+				
+				puntoN.x = 2 + (radio_nariz * Math.cos( ( 2 * Math.PI * i )/ res )/6);
+                puntoN.y = -0.4;
+                puntoN.z = 0; 
+
+				puntoOZ.x = 1.6 + ((radio_ojos/2 * Math.sin( ( 2 * Math.PI * i )/ res )/3));
+				puntoOZ.y = 0.5 + (radio_ojos/2 * Math.cos( ( 2 * Math.PI * i )/ res ));
+				puntoOZ.z = 0;
+				
+				puntoOD.x = 2.4 + (radio_ojos/2 * Math.sin( ( 2 * Math.PI * i )/ res )/3);
+				puntoOD.y = 0.5 + (radio_ojos/2 * Math.cos( ( 2 * Math.PI * i )/ res ));
+				puntoOD.z = 0;
+				
+				puntoC.x = 2 + (radio_cara * Math.sin( ( 2 * Math.PI * i )/ res_cara ));
+				puntoC.y = 0.1 + (radio_cara * Math.cos( ( 2 * Math.PI * i )/ res_cara )*1.8);
+				puntoC.z = 0;
+				
+				puntoSN.x = 2 + (radio_nariz * Math.cos( ( 2 * Math.PI * i )/ res )/6);
+                puntoSN.y = -0.4;
+                puntoSN.z = 0.01; 
+				
+				puntoSOI.x = 1.6 + (radio_sombraO * Math.cos( ( 2 * Math.PI * i )/ res )/5);
+                puntoSOI.y = 0.70;
+                puntoSOI.z = 0; 
+				
+				puntoSOD.x = 2.4 + (radio_sombraO * Math.cos( ( 2 * Math.PI * i )/ res )/5);
+                puntoSOD.y = 0.70;
+                puntoSOD.z = 0; 
+				
+				puntoCI.x = 1.59+(-radio * Math.cos( ( 2 * Math.PI * i )/ res_cejas )/2);
+				puntoCI.y = 0.75+(radio * Math.sin( ( 2 * Math.PI * i )/ res_cejas)/10);
+				puntoCI.z = 0;
+				
+				puntoCD.x = 2.42+(radio * Math.cos( ( 2 * Math.PI * i )/ res_cejas )/2);
+				puntoCD.y = 0.75+(radio * Math.sin( ( 2 * Math.PI * i )/ res_cejas)/10);
+				puntoCD.z = 0;
+				
+				puntoB.x = 2 +( radio * Math.sin( ( 2 * Math.PI * i )/ res_cejas)/3);
+				puntoB.y = (-1)+(radio * Math.cos( ( 2 * Math.PI * i )/ res_cejas )/15);
+				puntoB.z = 0;
+				
+				puntoORI.x = 1.1+(-radio * Math.cos( ( 2 * Math.PI * i )/ res_cejas )/3);
+				puntoORI.y = 0.25+(radio * Math.sin( ( 2 * Math.PI * i )/ res_cejas)/2);
+				puntoORI.z = 0;
+				
+				puntoORD.x = 2.9+(radio * Math.cos( ( 2 * Math.PI * i )/ res_cejas )/3);
+				puntoORD.y = 0.25+(radio * Math.sin( ( 2 * Math.PI * i )/ res_cejas)/2);
+				puntoORD.z = 0;
+				
+				puntoAUX.x = 2 + (radio_aux * Math.cos( ( 2 * Math.PI * i )/ res )/1.8);
+                puntoAUX.y = -2/1.5;
+                puntoAUX.z = 0.02; 
+				
+				
+				
+				ojo_izq.vertices.push( puntoOZ );
+				ojo_der.vertices.push( puntoOD );
+				nariz.vertices.push( puntoN );
+				cara.vertices.push( puntoC );
+				sombra_nariz.vertices.push( puntoSN );
+				sombra_OI.vertices.push( puntoSOI );
+				sombra_OD.vertices.push( puntoSOD );
+				ceja_izq.vertices.push( puntoCI );
+				ceja_der.vertices.push( puntoCD );
+				boca.vertices.push( puntoB );
+				oreja_izq.vertices.push( puntoORI );
+				oreja_der.vertices.push( puntoORD );
+				tg_aux.vertices.push( puntoAUX );
+				
+			
+				
+            }
+			//CREAR LOS MATERIALES
+			
+			var materialfan = new THREE.MeshBasicMaterial( { color: 0xFCE5CD, side:THREE.DoubleSide } );
+			var materialfan2 = new THREE.MeshBasicMaterial( { color: 0x1C0F01, side:THREE.DoubleSide } );
+			var materialfan3 = new THREE.MeshBasicMaterial( { color: 0xFFC88F, side:THREE.DoubleSide } );
+			var materialfan4 = new THREE.MeshBasicMaterial( { color: 0xF9CB9C, side:THREE.DoubleSide } );
+			var materialfan5 = new THREE.MeshBasicMaterial( { color: 0xB08A62, side:THREE.DoubleSide } );
+			var materialfan6 = new THREE.MeshBasicMaterial( { color: 0x563D23, side:THREE.DoubleSide } );
+			var materialfan7 = new THREE.MeshBasicMaterial( { color: 0xBF8A53, side:THREE.DoubleSide } );
+			var materialfan8 = new THREE.MeshBasicMaterial( { color: 0xD6A97A, side:THREE.DoubleSide } );
+			//fan = new TRIANGLE_FAN(geometria);	
+			//fan.draw();
+			
+			
+			var fan1 = new TRIANGLE_FAN(cara , materialfan4);
+			fan1 = fan1.draw();
+			var fan2 = new TRIANGLE_FAN(ojo_izq , materialfan2);
+			fan2 = fan2.draw();
+			var fan3 = new TRIANGLE_FAN(ojo_der , materialfan2);
+			fan3 = fan3.draw();
+			var fan4 = new TRIANGLE_FAN(nariz , materialfan3);
+			fan4 = fan4.draw();
+			var fan5 = new TRIANGLE_FAN(sombra_nariz , materialfan5);
+			fan5 = fan5.draw();
+			var fan6 = new TRIANGLE_FAN(sombra_OI , materialfan5);
+			fan6 = fan6.draw();
+			var fan7 = new TRIANGLE_FAN(sombra_OD , materialfan5);
+			fan7 = fan7.draw();
+			var fan8 = new TRIANGLE_FAN(ceja_izq, materialfan6);
+			fan8 = fan8.draw();
+			var fan9 = new TRIANGLE_FAN(ceja_der, materialfan6);
+			fan9 = fan9.draw();
+			var fan10 = new TRIANGLE_FAN(boca, materialfan7);
+			fan10 = fan10.draw();
+			var fan11 = new TRIANGLE_FAN(oreja_izq, materialfan8);
+			fan11 = fan11.draw();
+			var fan12 = new TRIANGLE_FAN(oreja_der, materialfan8);
+			fan12 = fan12.draw();
+			var fan13 = new TRIANGLE_FAN(tg_aux, materialfan4);
+			fan13 = fan13.draw();
+			
+			
+			
+			
+			
+			//strip = new TRIANGLE_STRIP(geometria2);
+			//strip.draw();
+			
+			
+			//CREAR LOS OBJETOS
+
+			
+		  	//AGREGAR A LA ESCENA
+		  	//scene.add( gridHelperXY );
+            //scene.add( gridHelperXZ );
+		  	//scene.add( arrowX );	
+		  	//scene.add( arrowY );	
+		  	//scene.add( arrowZ );	
+			scene.add( fan1 );
+		    scene.add( fan2 );
+			scene.add( fan3 );
+			scene.add( fan4 );
+			scene.add( fan5 );
+			scene.add( fan6 );
+			scene.add( fan7 );
+			scene.add( fan8 );
+			scene.add( fan9 );
+			scene.add( fan10 );
+			scene.add( fan11 );
+			scene.add( fan12 );
+			scene.add( fan13 );
+			
+			
+			camera.position.x = 0;
+			camera.position.y = 0;	 
+		  	camera.position.z = 10;
+			
+		  	camera.lookAt( origin );
+			}
+    
+    function animate() {
+        render();
+		controls.update(); // required if controls.enableDamping = true, or if controls.autoRotate = true
+        requestAnimationFrame( animate );
+    }
+    
+    function render(){
+        renderer.render( scene, camera );
+    }
+    </script>
+  </body>
+</html>

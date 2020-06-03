@@ -1,0 +1,328 @@
+<!DOCTYPE>
+
+<html>
+
+	<head>
+		<title>cytoscape-avsdf.js demo</title>
+
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+
+		<script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+
+		<!--polyfills are needed for this extension for old browsers like IE -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.5.7/shim.min.js"></script>
+
+		<script src="https://unpkg.com/layout-base/layout-base.js"></script>
+		<script src="https://unpkg.com/avsdf-base/avsdf-base.js"></script>
+		<script src="cytoscape-avsdf.js"></script>
+
+		<style>
+			body {
+				font-family: helvetica;
+				font-size: 15px;
+			}
+
+			#cy {
+				width: 100%;
+				height: 90%;
+				z-index: 999;
+			}
+
+			h1 {
+				opacity: 0.5;
+				font-size: 1em;
+				font-weight: bold;
+			}
+
+			button {
+				font-size: 15px;
+				margin-right: 10px;
+			}
+
+			.line {
+				clear:left;
+				height:25px;
+				margin-top:6px;
+				margin-right:6px;
+				margin-bottom:6px;
+			}
+
+			.radio {
+				margin-left:25px;
+			}
+
+		</style>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function(){
+
+				var cy = window.cy = cytoscape({
+					container: document.getElementById('cy'),
+
+					layout: {
+						name: 'avsdf',
+						nodeSeparation: 120
+					},
+					
+				 style: cytoscape.stylesheet().selector('node').css({
+				  'label': 'data(id)',
+                  'height': 80,
+                  'width': 80,
+                  'background-fit': 'cover',
+                  'border-color': '#000',
+                  'border-width': 3,
+                  'border-opacity': 0.5
+                  })
+				  .selector('#v1')
+                  .css({
+                   'background-image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQJaizcdtN6IcZVe9jiQBi--5IVmjYl7eNvpSmryPEQODMdzwnf&usqp=CAU'
+                  })
+				  .selector('#v2')
+                  .css({
+                   'background-image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQJaizcdtN6IcZVe9jiQBi--5IVmjYl7eNvpSmryPEQODMdzwnf&usqp=CAU'
+                  })
+				  .selector('#v3')
+                  .css({
+                  'background-image': 'https://i2.wp.com/gamerempire.net/wp-content/uploads/2019/03/Nita-Brawl-Stars.png?resize=512%2C346&ssl=1'
+                  })
+				  .selector('#v4')
+                  .css({
+                  'background-image': 'https://i2.wp.com/gamerempire.net/wp-content/uploads/2019/03/Nita-Brawl-Stars.png?resize=512%2C346&ssl=1'
+                  })
+				  .selector('#v5')
+                  .css({
+                  'background-image': 'https://progameguides.com/wp-content/uploads/2018/12/brawl-star-leon-sally-398x398.jpg'
+                  })
+				  .selector('#v6')
+                  .css({
+                  'background-image': 'https://progameguides.com/wp-content/uploads/2018/12/brawl-star-leon-sally-398x398.jpg'
+                  })
+				  .selector('#v7')
+                  .css({
+                  'background-image': 'https://pm1.narvii.com/7114/56159e25511fef886133a17cf25186f0224c7777r1-878-1007v2_uhq.jpg'
+                  })
+				  .selector('#v8')
+                  .css({
+                  'background-image': 'https://i2.wp.com/gamerempire.net/wp-content/uploads/2019/03/Nita-Brawl-Stars.png?resize=512%2C346&ssl=1'
+                  })
+				  .selector('#v9')
+                  .css({
+                  'background-image': 'https://i2.wp.com/gamerempire.net/wp-content/uploads/2019/03/Nita-Brawl-Stars.png?resize=512%2C346&ssl=1'
+                  })
+				  .selector('#v10')
+                  .css({
+                  'background-image': 'https://i2.wp.com/gamerempire.net/wp-content/uploads/2019/03/Nita-Brawl-Stars.png?resize=512%2C346&ssl=1'
+                  })
+				  .selector('#v11')
+                  .css({
+                  'background-image': 'https://i2.wp.com/gamerempire.net/wp-content/uploads/2019/03/Nita-Brawl-Stars.png?resize=512%2C346&ssl=1'
+                  })
+				  .selector('#v12')
+                  .css({
+                  'background-image': 'https://i2.wp.com/gamerempire.net/wp-content/uploads/2019/03/Nita-Brawl-Stars.png?resize=512%2C346&ssl=1'
+                  })
+				  ,
+				  
+				  
+		
+
+					elements: [
+					
+							{ 
+							
+							'data': {
+							'id': 'v1',
+							'weight': '1',
+							}
+							},
+							
+							{ 
+							'data': { 
+							'id': 'v2', 
+							'weight': '2'
+							} 
+							},
+							
+							{ 
+							data: { 
+							'id': 'v3', 
+							'weight': '3'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'id': 'v4', 
+							'weight': '4'
+							}
+							},
+							
+							{ 
+							'data': { 
+							'id': 'v5', 
+							'weight': '5'
+							} 
+							},
+							
+							{ 
+							data: { 
+							'id': 'v6', 
+							'weight': '6'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'id': 'v7', 
+							'weight': '7'
+							} 
+							},
+							
+							{
+							'data': {
+							'id': 'v8',
+							'weight': '8'
+							}
+							},
+							
+							{
+							'data': {
+							'id': 'v9',
+							'weight': '9'
+							}
+							},
+							
+							{
+							'data': {
+							'id': 'v10',
+							'weight': '10'
+							}
+							},
+							
+							{
+							'data': {
+							'id': 'v11',
+							'weight': '11'
+							}
+							},
+							
+							{
+							'data': {
+							'id': 'v12',
+							'weight': '12'
+							}
+							},
+							
+							//
+
+							{ 
+							'data': { 
+							'source': 'v1', 
+							'target': 'v2', 
+							'directed': 'false'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'source': 'v3', 
+							'target': 'v4', 
+							'directed': 'false'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'source': 'v5', 
+							'target': 'v6', 
+							'directed': 'false'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'source': 'v7', 
+							'target': 'v8', 
+							'directed': 'false'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'source': 'v9', 
+							'target': 'v10', 
+							'directed': 'false'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'source': 'v11', 
+							'target': 'v12', 
+							'directed': 'false'
+							} 
+							}
+						]				
+				});
+
+				document.getElementById("layoutButton").addEventListener("click", function(){
+					if(document.getElementById("end").checked) {
+						var layout = cy.layout({
+							name: 'avsdf',
+							animate: "end",
+							animationDuration: 1000,
+							animationEasing: 'ease-in-out',
+							nodeSeparation: 120
+						});
+					} else{
+						var layout = cy.layout({
+							name: 'avsdf',
+							refresh: 1,
+							animate: "during",
+							animationDuration: 1000,
+							animationEasing: 'ease-in-out',
+							nodeSeparation: 120
+						});
+					}
+					layout.run();
+				});
+
+				document.getElementById("randomize").addEventListener("click", function(){
+					cy.nodes().forEach(function(ele){
+						ele.data().weight = Math.floor((Math.random() * 10) + 1);
+					});
+
+					var layout = cy.layout({
+						name: 'circle',
+						animate: true,
+						sort: function(a, b){ return a.data('weight') - b.data('weight') },
+						radius: 120,
+						animationDuration: 1000,
+						animationEasing: 'ease-in-out'
+					});
+					layout.run();
+				});
+
+			});
+		</script>
+	</head>
+
+	<body>
+		<h1>JUEGO DE MEMORIA</h1>
+		<div class="line">
+			Animation Type:
+			<input type="radio" name="radio" id="end" class="radio" value="end" checked> End
+			<input type="radio" name="radio" id="during" class="radio" value="during"> During <br>
+		</div>
+		<a data-toggle="tooltip" data-placement="auto" title="Places the nodes circularly as a randomly permuted sequence">
+			<button id="randomize" type="button">Aleatorio</button>
+		</a>
+		<a data-toggle="tooltip" data-placement="auto" title="Places the nodes circularly with respect to AVSDF layout">
+		<button id="layoutButton" type="button">Original</button>
+		</a>
+
+		<div id="cy"></div>
+
+	</body>
+
+</html>

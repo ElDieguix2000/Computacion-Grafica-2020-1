@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>three.js webgl - interactive - voxel painter</title>
+		
+		<style>
+          html, body { margin: 0; padding: 0; overflow: hidden; }
+            #info {
+                position: absolute;
+                padding: 10px;
+                width: 100%;
+
+                color: #000000;
+            }
+		</style>
+	</head>
+	<body>
+    <div id="info">OPCIONES CON EL TECLADO<br/>
+          Usar teclas A, S y D : para rotar <br/>          
+		  Usar teclas Z, X , C , V, B : para cambiar entre figuras <br/>		  
+		  Usar teclas 1 , 2 , 3 , 4, 5 ,6 : para cambiar colores <br/>
+         </div>
+		<script src="js/three.js"></script>
+       <script src="js/controls/OrbitControls.js"></script>
+      
+       <script src="js/csg.js"></script>
+        <script src="js/THREE.CSG.js"></script>
+       <script type="module">
+          
+			var scene, aspect, camera, renderer, controls;
+			var plane;
+			var mouse, raycaster, isShiftDown = false;
+			
+			var aKey = false;			
+			var zKey = false;			
+			var xKey = false;			
+			var cKey = false;
+			var vKey = false;			
+			var sKey = false;			
+			var dKey = false;						
+			var fKey = false;				
+			var bKey = false;			
+			var uno_Key = false;			
+			var dos_Key = false;			
+			var tres_Key = false;			
+			var cuatro_Key = false;			
+			var cinco_Key = false;			
+			var seis_Key = false;			
+
+            var voxel
+			var piramide 
+			var Clin;
+			var rollOverGeo
+			var rollOverMesh, rollOverMaterial;
+			var cubeGeo, cubeMaterial, cubeMaterial2,cubeMaterial3,cubeMaterial4,
+			cubeMaterial5,cubeMaterial6;
+			var F
+			var M
+			var C
+			var d
+			var g
+			var a_color
+			var Cilindro_
+			var cin
+
+			var objects = [];
+
+			init();
+			animate();
+
+			function init() {
+
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
+				camera.position.set( 500, 800, 1300 );
+				camera.lookAt( 0, 0, 0 );
+
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0xf0f0f0 );
+				renderer = new THREE.WebGLRenderer();
+			    renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer = new THREE.WebGLRenderer();
+			   
+			   var color = new THREE.Color( 0x333333 );
+		  	   var colorR = new THREE.Color( 0xAA3333 );
+		  	   var colorG = new THREE.Color( 0x33AA33 );
+		  	   var colorB = new THREE.Color( 0x333366 );
+			   
+			   //Eventos de teclado
+			   
+			   var onKeyDown = function ( event ) {
+				
+				switch ( event.keyCode ) {
+					case 65: 
+						aKey = true;
+						break;					
+						
+					case 90: 
+						zKey = true;
+						break;					
+						
+					case 88: 
+						xKey = true;
+						break;					
+						
+					case 67: 
+						cKey = true;
+						break;					
+						
+					case 86: 
+						vKey = true;
+						break;
+					
+					case 83: 
+						sKey = true;
+						break;
+					
+					case 68: 
+						dKey = true;
+						break;					
+					
+					case 70: 
+						fKey = true;
+						break;					
+										
+					case 49: 
+						uno_Key = true;
+						break;					
+					
+					case 50: 
+						dos_Key = true;
+						break;					
+					
+					case 51: 
+						tres_Key = true;
+						break;						
+						
+					case 52: 
+						cuatro_Key = true;
+						break;						
+						
+					case 53: 
+						cinco_Key = true;
+						break;						
+						
+					case 54: 
+						seis_Key = true;
+						break;						
+					
+					case 66: 
+						bKey = true;
+						break;					
+					
+				}
+			};	  
+		  			
+			var onKeyUp = function ( event ) {
+				switch ( event.keyCode ) {
+					case 65: // 
+						aKey = false;
+						break;
+					case 90: 
+						zKey = false;
+						break;					
+						
+					case 88: 
+						xKey = false;
+						break;					
+						
+					case 67: 
+						cKey = false;
+						break;					
+						
+					case 86: 
+						vKey = false;
+						break;
+					
+					case 83: 
+						sKey = false;
+						break;
+					
+					case 68: 
+						dKey = false;
+						break;
+					
+					case 70: 
+						fKey = false;
+						break;
+					
+					case 49: 
+						uno_Key =false;
+						break;					
+					
+					case 50: 
+						dos_Key = false;
+						break;					
+					
+					case 51: 
+						tres_Key = false;
+						break;						
+						
+					case 52: 
+						cuatro_Key = false;
+						break;						
+						
+					case 53: 
+						cinco_Key = false;
+						break;						
+						
+					case 54: 
+						seis_Key = false;
+						break;					
+						
+					case 66: 
+						bKey = false;
+						break;					
+					
+
+
+				}
+			};
+			document.addEventListener( 'keydown', onKeyDown, false );
+			document.addEventListener( 'keyup', onKeyUp, false );
+
+
+				// roll-over helpers
+				
+
+				rollOverGeo = new THREE.BoxBufferGeometry( 50, 50, 50 );
+		
+				rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
+				rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
+				scene.add( rollOverMesh );
+
+				// cubes
+
+				cubeGeo = new THREE.BoxBufferGeometry( 50, 50, 50 );
+				d = new THREE.Mesh(cubeGeo)				
+				g = new THREE.Mesh(cubeGeo)
+				cubeMaterial = new THREE.MeshStandardMaterial( {color: 0x1C1C1F,roughness: 10} );
+				a_color = new THREE.MeshStandardMaterial( {color: 0x1C1C1F,roughness: 10} );
+				cubeMaterial2 = new THREE.MeshStandardMaterial( {color: 0xFFFFFF,roughness: 10} );
+				cubeMaterial3 = new THREE.MeshStandardMaterial( {color: 0x145A32 ,roughness: 10} );
+				cubeMaterial4 = new THREE.MeshStandardMaterial( {color: 0xF4D03F,roughness: 10} );
+				cubeMaterial5 = new THREE.MeshStandardMaterial( {color: 0x7D3C98,roughness: 10} );
+				cubeMaterial6 = new THREE.MeshStandardMaterial( {color: 0xE74C3C ,roughness: 10} );
+			    //CREAR LAS GEOMETRÍAS
+			    var boxGeometry = new THREE.BoxGeometry( 50, 50, 50 );
+			    var Esfera = new THREE.SphereGeometry( 10, 50, 50 );
+				var caja_1 = new THREE.BoxGeometry( 50,18, 18 );
+			    var Esfera_1 = new THREE.SphereGeometry( 20, 50, 50 );
+			    var Cilindro_1 = new THREE.CylinderGeometry( 37,37,9,60 );
+				var caja_2 = new THREE.BoxGeometry( 80,18, 18 );
+				var Esfera_2 = new THREE.SphereGeometry( 30, 50, 50 );
+			    var Cilindro_2 = new THREE.CylinderGeometry( 10,10,80,60 );
+				var Cilindro_ = new THREE.CylinderGeometry( 10,10, 50,60 );
+				cin = new THREE.Mesh( Cilindro_ , cubeMaterial )
+				
+				piramide = new THREE.CylinderGeometry( 0.1,50, 50, 3 );
+				Clin = new THREE.Mesh(piramide, cubeMaterial);
+			    
+				var Esfera1 = Esfera.clone();			
+			    var Esfera2 = Esfera.clone();			
+			    var Esfera3 = Esfera.clone();
+						
+			    //CREAR LOS MATERIALES
+                var material1 = new THREE.MeshStandardMaterial( { color: colorR, metalness: 0.5, roughness: 0.1 } );
+			    var material2 = new THREE.MeshStandardMaterial( { color: colorG, metalness: 0.5, roughness: 0.1 } );
+			  
+			    //CREAR LAS MALLAS
+			    var cube = new THREE.Mesh( boxGeometry  );
+			    var sphere = new THREE.Mesh( Esfera  );			
+			    var sphere1 = new THREE.Mesh( Esfera1  );	
+			    var sphere2 = new THREE.Mesh( Esfera2  );	
+			    var sphere3 = new THREE.Mesh( Esfera3  );
+				var cube_1 = new THREE.Mesh( caja_1  );
+			    var sphere_1 = new THREE.Mesh( Esfera_1  );			
+			    var Cilindro_11 = new THREE.Mesh( Cilindro_1);				
+				var cube_2 = new THREE.Mesh( caja_2  );
+			    var sphere_2 = new THREE.Mesh( Esfera_2  );			
+			    var Cilindro_22 = new THREE.Mesh( Cilindro_2);
+				
+			    sphere.translateX( -13.3 );
+			    sphere.translateY( 22.45 );
+			    sphere.translateZ( 13.3 );			
+			  
+			    sphere1.translateX( 13.3 );
+			    sphere1.translateY( 22.45 );
+			    sphere1.translateZ( 13.3 );
+			
+			    sphere2.translateX( -13.3 );
+			    sphere2.translateY( 22.45 );
+			    sphere2.translateZ( -13.3 );			
+			
+			    sphere3.translateX( 13.3 );
+			    sphere3.translateY( 22.45 );
+			    sphere3.translateZ( -13.3 );			
+
+			
+			
+			   //CONVERTIR A CSG
+			   var boxCSG = THREE.CSG.fromMesh( cube );
+			   var sphereCSG = THREE.CSG.fromMesh( sphere );			
+			   var sphere1CSG = THREE.CSG.fromMesh( sphere1 );
+			   var sphere2CSG = THREE.CSG.fromMesh( sphere2 );
+			   var sphere3CSG = THREE.CSG.fromMesh( sphere3 );
+			   var caja_1CSG = THREE.CSG.fromMesh( cube_1 );
+			   var sphere_1CSG = THREE.CSG.fromMesh( sphere_1 );					
+			   var CilindroCSG = THREE.CSG.fromMesh( Cilindro_11 );			   
+			   var caja_2CSG = THREE.CSG.fromMesh( cube_2 );
+			   var sphere_2CSG = THREE.CSG.fromMesh( sphere_2 );					
+			   var Cilindro2CSG = THREE.CSG.fromMesh( Cilindro_22 );
+
+			
+			   //APLICAR LAS OPERACIONES
+			   var result = boxCSG.union( sphereCSG).union(sphere1CSG).union(sphere2CSG).
+			   union(sphere3CSG);
+			   
+			   var result2 = sphere_1CSG.subtract( caja_1CSG).union(CilindroCSG)
+			   var result3 = sphere_2CSG.intersect( caja_2CSG).union(Cilindro2CSG)
+
+			
+			   //CONVERTIR A THREE
+			     F = THREE.CSG.toMesh( result ); 
+				 M = THREE.CSG.toMesh( result2 );
+				 C = THREE.CSG.toMesh( result3 );
+				 
+				 C.translateY( 50 )
+				 
+			     //F.material = cubeMaterial;
+			
+			     //AGREGAR A LA ESCENA LOS DIFERENTES ELEMENTOS
+			    //scene.add( F );
+			    //scene.add( sphere );		//ACTIVE PARA VISUALIZAR LA ESFERA
+				// grid
+
+				var gridHelper = new THREE.GridHelper( 1000, 20 );
+				scene.add( gridHelper );
+
+				//
+
+				raycaster = new THREE.Raycaster();
+				mouse = new THREE.Vector2();
+
+				var geometry = new THREE.PlaneBufferGeometry( 1000, 1000 );
+				geometry.rotateX( - Math.PI / 2 );
+
+				plane = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { visible: false } ) );
+				scene.add( plane );
+
+				objects.push( plane );
+
+				// lights
+
+				var ambientLight = new THREE.AmbientLight( 0x606060 );
+				scene.add( ambientLight );
+
+				var directionalLight = new THREE.DirectionalLight( 0xffffff );
+				directionalLight.position.set( 1, 0.75, 0.5 ).normalize();
+				scene.add( directionalLight );
+
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+				document.addEventListener( 'keydown', onDocumentKeyDown, false );
+				document.addEventListener( 'keyup', onDocumentKeyUp, false );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+			    controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth 
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth);
+
+			}
+
+			function onDocumentMouseMove( event ) {
+
+				event.preventDefault();
+
+				mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+
+				raycaster.setFromCamera( mouse, camera );
+
+				var intersects = raycaster.intersectObjects( objects );
+
+				if ( intersects.length > 0 ) {
+
+					var intersect = intersects[ 0 ];
+
+					rollOverMesh.position.copy( intersect.point ).add( intersect.face.normal );
+					rollOverMesh.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
+
+				}
+
+				render();
+
+			}
+
+			function onDocumentMouseDown( event ) {
+
+				event.preventDefault();
+
+				mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+
+				raycaster.setFromCamera( mouse, camera );
+
+				var intersects = raycaster.intersectObjects( objects );
+
+				if ( intersects.length > 0 ) {
+
+					var intersect = intersects[ 0 ];
+
+					// delete cube
+
+					if ( isShiftDown ) {
+
+						if ( intersect.object !== plane ) {
+
+							scene.remove( intersect.object );
+
+							objects.splice( objects.indexOf( intersect.object ), 1 );
+
+						}
+
+						// create cube
+
+					} else {
+
+						voxel = new THREE.Mesh( d.geometry, cubeMaterial );
+						voxel.position.copy( intersect.point ).add( intersect.face.normal );
+						voxel.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
+						scene.add( voxel );
+
+						objects.push( voxel );
+
+					}
+
+					render();
+
+				}
+
+			}
+
+			function onDocumentKeyDown( event ) {
+
+				switch ( event.keyCode ) {
+
+					case 16: isShiftDown = true; break;
+
+				}
+
+			}
+
+			function onDocumentKeyUp( event ) {
+
+				switch ( event.keyCode ) {
+
+					case 16: isShiftDown = false; break;
+
+				}
+				}
+				function animate(){
+			render();			
+			controls.update();
+			requestAnimationFrame( animate );
+
+
+		}
+
+			
+
+			function render() {
+			var r;
+
+        if(aKey) {
+           
+		  r = 0.01;
+		  voxel.rotateX(r);
+          
+    
+            }         
+		
+		if(sKey) {
+           
+		  r = 0.01;
+		  voxel.rotateY(r);
+          
+    
+            } 		
+		
+		if(dKey) {
+           
+		  r = 0.01;
+		  voxel.rotateZ(r);
+          
+    
+            }        
+	    if(zKey) {
+
+            d.geometry = Clin.geometry;
+    
+            }        
+		if(xKey) {
+
+            d.geometry = F.geometry;
+    
+            }        
+		if(cKey) {
+
+            d.geometry = cin.geometry;
+    
+            }       
+		if(vKey) {
+
+            d.geometry = M.geometry;
+    
+            }		
+		if(fKey) {
+            
+			d.geometry = g.geometry
+    
+            }		
+		if(bKey) {
+            
+			d.geometry = C.geometry
+    
+            }		
+		if(uno_Key) {
+            
+            cubeMaterial = a_color
+            }		
+		if(dos_Key) {
+            
+            cubeMaterial = cubeMaterial2
+            }		
+		if(tres_Key) {
+            
+            cubeMaterial = cubeMaterial3      
+            }		
+		if(cuatro_Key) {
+            
+            cubeMaterial = cubeMaterial4    
+            }		
+		if(cinco_Key) {
+            
+            cubeMaterial = cubeMaterial5    
+            }		
+		if(seis_Key) {
+            
+            cubeMaterial = cubeMaterial6    
+            }
+        
+
+
+				renderer.render( scene, camera );
+
+			}
+
+		</script>
+
+	</body>
+</html>

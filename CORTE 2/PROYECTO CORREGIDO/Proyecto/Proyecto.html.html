@@ -1,0 +1,567 @@
+<!DOCTYPE>
+
+<html>
+
+	<head>
+		<title>Avance proyecto</title>
+
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+
+		<script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+
+		<!--polyfills are needed for this extension for old browsers like IE -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.5.7/shim.min.js"></script>
+
+		<script src="https://unpkg.com/layout-base/layout-base.js"></script>
+		<script src="https://unpkg.com/avsdf-base/avsdf-base.js"></script>
+		<script src="cytoscape-avsdf.js"></script>
+		<script src="js/three.js"></script>
+	    <script src="js/controls/OrbitControls.js"></script>
+	    <script src="js/csg.js"></script>
+	    <script src="js/THREE.CSG.js"></script>
+
+		<style>
+			body {
+				font-family: helvetica;
+				font-size: 15px;
+			}
+
+			#cy {
+				width: 100%;
+				height: 90%;
+				z-index: 999;
+			}
+
+			h1 {
+				opacity: 0.5;
+				font-size: 1em;
+				font-weight: bold;
+			}
+
+			button {
+				font-size: 15px;
+				margin-right: 10px;
+			}
+
+			.line {
+				clear:left;
+				height:25px;
+				margin-top:6px;
+				margin-right:6px;
+				margin-bottom:6px;
+			}
+
+			.radio {
+				margin-left:25px;
+			}
+
+		</style>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function(){
+
+				var cy = window.cy = cytoscape({
+					container: document.getElementById('cy'),
+
+					layout: {
+						name: 'avsdf',
+						nodeSeparation: 120
+					},
+					
+				 style: cytoscape.stylesheet().selector('node').css({
+				 
+                  'height': 80,
+                  'width': 80,
+                  'background-fit': 'cover',
+                  'border-color': '#000',
+                  'border-width': 3,
+                  'border-opacity': 0.5
+                  })
+				  .selector('#v1')
+                  .css({
+                   'background-image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQJaizcdtN6IcZVe9jiQBi--5IVmjYl7eNvpSmryPEQODMdzwnf&usqp=CAU'
+                  })
+				  .selector('#v2')
+                  .css({
+                   'background-image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQJaizcdtN6IcZVe9jiQBi--5IVmjYl7eNvpSmryPEQODMdzwnf&usqp=CAU'
+                  })
+				  .selector('#v3')
+                  .css({
+                  'background-image': 'https://i2.wp.com/gamerempire.net/wp-content/uploads/2019/03/Nita-Brawl-Stars.png?resize=512%2C346&ssl=1'
+                  })
+				  .selector('#v4')
+                  .css({
+                  'background-image': 'https://i2.wp.com/gamerempire.net/wp-content/uploads/2019/03/Nita-Brawl-Stars.png?resize=512%2C346&ssl=1'
+                  })
+				  .selector('#v5')
+                  .css({
+                  'background-image': 'https://www.meme-arsenal.com/memes/87af9852024b6296b85e9b1f4c6bfaa2.jpg'
+                  })
+				  .selector('#v6')
+                  .css({
+                  'background-image': 'https://www.meme-arsenal.com/memes/87af9852024b6296b85e9b1f4c6bfaa2.jpg'
+                  })
+				  .selector('#v7')
+                  .css({
+                  'background-image': 'https://static1.millenium.gg/entity_articles/7/20/7/@/23649-16254-brawl-stars-el-primo-1280x720-orig-1-article_m-1.png'
+                  })
+				  .selector('#v8')
+                  .css({
+                  'background-image': 'https://static1.millenium.gg/entity_articles/7/20/7/@/23649-16254-brawl-stars-el-primo-1280x720-orig-1-article_m-1.png'
+                  })
+				  .selector('#v9')
+                  .css({
+                  'background-image': 'https://vignette.wikia.nocookie.net/brawlstarschile/images/d/d3/Crow.jpg/revision/latest/scale-to-width-down/340?cb=20190404195350&path-prefix=es'
+                  })
+				  .selector('#v10')
+                  .css({
+                  'background-image': 'https://vignette.wikia.nocookie.net/brawlstarschile/images/d/d3/Crow.jpg/revision/latest/scale-to-width-down/340?cb=20190404195350&path-prefix=es'
+                  })
+				  .selector('#v11')
+                  .css({
+                  'background-image': 'https://cdn131.picsart.com/298500255273201.jpg?type=webp&to=min&r=640'
+                  })
+				  .selector('#v12')
+                  .css({
+                  'background-image': 'https://cdn131.picsart.com/298500255273201.jpg?type=webp&to=min&r=640'
+                  })
+				  ,
+				  
+				  
+		
+
+					elements: [
+					
+							{ 
+							
+							'data': {
+							'id': 'v1',
+							'weight': '1',
+							}
+							},
+							
+							{ 
+							'data': { 
+							'id': 'v2', 
+							'weight': '2'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'id': 'v3', 
+							'weight': '3'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'id': 'v4', 
+							'weight': '4'
+							}
+							},
+							
+							{ 
+							'data': { 
+							'id': 'v5', 
+							'weight': '5'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'id': 'v6', 
+							'weight': '6'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'id': 'v7', 
+							'weight': '7'
+							} 
+							},
+							
+							{
+							'data': {
+							'id': 'v8',
+							'weight': '8'
+							}
+							},
+							
+							{
+							'data': {
+							'id': 'v9',
+							'weight': '9'
+							}
+							},
+							
+							{
+							'data': {
+							'id': 'v10',
+							'weight': '10'
+							}
+							},
+							
+							{
+							'data': {
+							'id': 'v11',
+							'weight': '11'
+							}
+							},
+							
+							{
+							'data': {
+							'id': 'v12',
+							'weight': '12'
+							}
+							},
+							
+							//
+
+							{ 
+							'data': { 
+							'source': 'v1', 
+							'target': 'v2', 
+							'directed': 'false'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'source': 'v3', 
+							'target': 'v4', 
+							'directed': 'false'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'source': 'v5', 
+							'target': 'v6', 
+							'directed': 'false'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'source': 'v7', 
+							'target': 'v8', 
+							'directed': 'false'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'source': 'v9', 
+							'target': 'v10', 
+							'directed': 'false'
+							} 
+							},
+							
+							{ 
+							'data': { 
+							'source': 'v11', 
+							'target': 'v12', 
+							'directed': 'false'
+							} 
+							}
+						]				
+				});
+
+				document.getElementById("layoutButton").addEventListener("click", function(){
+					if(document.getElementById("end").checked) {
+						var layout = cy.layout({
+							name: 'avsdf',
+							animate: "end",
+							animationDuration: 1000,
+							animationEasing: 'ease-in-out',
+							nodeSeparation: 120
+						});
+					} else{
+						var layout = cy.layout({
+							name: 'avsdf',
+							refresh: 1,
+							animate: "during",
+							animationDuration: 1000,
+							animationEasing: 'ease-in-out',
+							nodeSeparation: 120
+						});
+					}
+					layout.run();
+				});
+
+				document.getElementById("randomize").addEventListener("click", function(){
+					cy.nodes().forEach(function(ele){
+						ele.data().weight = Math.floor((Math.random() * 10) + 1);
+					});
+
+					var layout = cy.layout({
+						name: 'circle',
+						animate: true,
+						sort: function(a, b){ return a.data('weight') - b.data('weight') },
+						radius: 120,
+						animationDuration: 1000,
+						animationEasing: 'ease-in-out'
+					});
+					layout.run();
+				});
+
+			});
+			
+		</script>
+	</head>
+
+	<body>
+		<h1>JUEGO DE MEMORIA</h1>
+		<div class="line">
+				Tipo de animación:
+			<input type="radio" name="radio" id="end" class="radio" value="end" checked> Lento
+			<input type="radio" name="radio" id="during" class="radio" value="during"> Rápido <br>
+		</div>
+		<a data-toggle="tooltip" data-placement="auto" title="Places the nodes circularly as a randomly permuted sequence">
+			<button id="randomize" type="button">Aleatorio</button>
+		</a>
+		<a data-toggle="tooltip" data-placement="auto" title="Places the nodes circularly with respect to AVSDF layout">
+		<button id="layoutButton" type="button">Original</button>
+		</a>
+
+		<div id="cy"></div>
+		    <script>
+		var scene, aspect, camera, renderer, controls;
+		init();
+		animate();
+		function init(){
+			//INICIALIZACIÓN
+	        scene = new THREE.Scene();
+			scene.background = new THREE.Color( 0xffffff );
+	        aspect = window.innerWidth / window.innerHeight;
+	        camera = new THREE.PerspectiveCamera( 75, aspect, 0.1, 1000);
+	        renderer = new THREE.WebGLRenderer();
+	        renderer.setSize( window.innerWidth, window.innerHeight );
+	        document.body.appendChild( renderer.domElement );
+			controls = new THREE.OrbitControls( camera, renderer.domElement );
+			
+			//ELEMENTOS COMUNES
+			var size = 10;
+			var arrowSize = 1;
+			var divisions = size;
+			var origin = new THREE.Vector3( 0, 0, 0 );
+			var x = new THREE.Vector3( 1, 0, 0 );
+			var y = new THREE.Vector3( 0, 1, 0 );
+		  	var z = new THREE.Vector3( 0, 0, 1 );
+		  	var color = new THREE.Color( 0x333333 );
+		  	var colorR = new THREE.Color( 0xAA3333 );
+		  	var colorG = new THREE.Color( 0x33AA33 );
+		  	var colorB = new THREE.Color( 0x333366 );
+			
+		  	//CREAR LAS GRILLAS PARA EL ESCENARIO
+		  	var axesHelper = new THREE.AxesHelper( size );
+			//scene.add( axesHelper );
+			
+		  	var gridHelperXZ = new THREE.GridHelper( size, divisions, color, color );
+			//scene.add( gridHelperXZ );
+            
+            //ROTARLAS PARA QUE QUEDEN EN EL ESPACIO ADECUADO
+            gridHelperXZ.rotateOnWorldAxis ( y, THREE.Math.degToRad(90) );
+
+            //CREAR ILUMINACIÓN
+            var ambient = new THREE.AmbientLight( 0xffffff, 2 );
+            scene.add( ambient );
+			
+            var pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
+            pointLight.position.set( -5, 1, 5 );
+            scene.add( pointLight );
+			
+            var pointLight = new THREE.PointLight( 0xffffff, .5, 100 );
+            pointLight.position.set( 5, 1, -5 );
+            scene.add( pointLight );
+			
+			//CREAR LAS GEOMETRÍAS
+			var Cilindro = new THREE.CylinderGeometry(17,17,6,12 );
+			var Hueco = new THREE.CylinderGeometry(2,2,2,12 );
+			var Hueco1 = Hueco.clone();			
+			var Hueco2 = Hueco.clone();			
+			var Hueco3 = Hueco.clone();			
+			var Hueco4 = Hueco.clone();			
+			var Hueco5 = Hueco.clone();			
+			var Hueco6 = Hueco.clone();			
+			var Hueco7 = Hueco.clone();			
+			var Hueco8 = Hueco.clone();			
+			var Hueco9 = Hueco.clone();			
+			var Hueco10 = Hueco.clone();			
+			var Hueco11 = Hueco.clone();			
+
+						
+			//CREAR LOS MATERIALES
+            var material1 = new THREE.MeshStandardMaterial( {color: 0x009888,roughness: 10} );
+			var material2 = new THREE.MeshStandardMaterial( { color: colorG, metalness: 0.5, roughness: 0.1 } );
+			
+			//CREAR LAS MALLAS
+			var Cilin = new THREE.Mesh( Cilindro, material1 );
+			var Hueco_ = new THREE.Mesh( Hueco, material2 );			
+			var Hueco_1 = new THREE.Mesh( Hueco1, material2 );			
+			var Hueco_2 = new THREE.Mesh( Hueco2, material2 );			
+			var Hueco_3 = new THREE.Mesh( Hueco3, material2 );			
+			var Hueco_4 = new THREE.Mesh( Hueco4, material2 );			
+			var Hueco_5 = new THREE.Mesh( Hueco5, material2 );			
+			var Hueco_6 = new THREE.Mesh( Hueco6, material2 );			
+			var Hueco_7 = new THREE.Mesh( Hueco7, material2 );			
+			var Hueco_8 = new THREE.Mesh( Hueco8, material2 );			
+			var Hueco_9 = new THREE.Mesh( Hueco9, material2 );			
+			var Hueco_10 = new THREE.Mesh( Hueco10, material2 );			
+			var Hueco_11 = new THREE.Mesh( Hueco11, material2 );
+			
+			//Cambios de Posicion
+			
+			Hueco_.translateX( -10 );
+			Hueco_.translateY( 7 );
+			Hueco_.translateZ( -2.0 );			
+			
+			Hueco_1.translateX( -10 );
+			Hueco_1.translateY( -4 );
+			Hueco_1.translateZ( 6 );			
+			
+			Hueco_2.translateX( -6 );
+			Hueco_2.translateY( 11 );
+			Hueco_2.translateZ( -4 );			
+			
+			Hueco_3.translateX( -0.1 );
+			Hueco_3.translateY( 12 );
+			Hueco_3.translateZ( -5 );			
+			
+			Hueco_4.translateX( 6 );
+			Hueco_4.translateY( 11 );
+			Hueco_4.translateZ( -4 );			
+			
+			Hueco_5.translateX( 10 );
+			Hueco_5.translateY( 7 );
+			Hueco_5.translateZ( -2.0 );			
+			
+			Hueco_6.translateX( -0.1 );
+			Hueco_6.translateY( -9 );
+			Hueco_6.translateZ(  10 );			
+			
+			Hueco_7.translateX( -6 );
+			Hueco_7.translateY( -8 );
+			Hueco_7.translateZ( 9 );			
+			
+			Hueco_8.translateX( 6 );
+			Hueco_8.translateY( -8 );
+			Hueco_8.translateZ( 9 );			
+			
+			Hueco_9.translateX( 10 );
+			Hueco_9.translateY( -4 );
+			Hueco_9.translateZ( 6 );			
+			
+			Hueco_10.translateX( -12 );
+			Hueco_10.translateY( 1 );
+			Hueco_10.translateZ( 2 );			
+			
+			Hueco_11.translateX( 12 );
+			Hueco_11.translateY( 1 );
+			Hueco_11.translateZ( 2 );
+			
+			Cilin.rotation.x = 180;
+			Cilin.rotation.y = 0;
+			Cilin.rotation.z = 0;			
+			
+			Hueco_.rotation.x = 180;
+			Hueco_.rotation.y = 0;
+			Hueco_.rotation.z = 0;			
+			
+			Hueco_1.rotation.x = 180;
+			Hueco_1.rotation.y = 0;
+			Hueco_1.rotation.z = 0;	
+			
+			Hueco_2.rotation.x = 180;
+			Hueco_2.rotation.y = 0;
+			Hueco_2.rotation.z = 0;
+			
+			Hueco_3.rotation.x = 180;
+			Hueco_3.rotation.y = 0;
+			Hueco_3.rotation.z = 0;	
+			
+			Hueco_4.rotation.x = 180;
+			Hueco_4.rotation.y = 0;
+			Hueco_4.rotation.z = 0;
+			
+			Hueco_5.rotation.x = 180;
+			Hueco_5.rotation.y = 0;
+			Hueco_5.rotation.z = 0;
+			
+			Hueco_6.rotation.x = 180;
+			Hueco_6.rotation.y = 0;
+			Hueco_6.rotation.z = 0;
+			
+			Hueco_7.rotation.x = 180;
+			Hueco_7.rotation.y = 0;
+			Hueco_7.rotation.z = 0;
+			
+			Hueco_8.rotation.x = 180;
+			Hueco_8.rotation.y = 0;
+			Hueco_8.rotation.z = 0;
+			
+			Hueco_9.rotation.x = 180;
+			Hueco_9.rotation.y = 0;
+			Hueco_9.rotation.z = 0;
+			
+			Hueco_10.rotation.x = 180;
+			Hueco_10.rotation.y = 0;
+			Hueco_10.rotation.z = 0;
+			
+			Hueco_11.rotation.x = 180;
+			Hueco_11.rotation.y = 0;
+			Hueco_11.rotation.z = 0;
+			
+			
+		
+			
+			//CONVERTIR A CSG
+			var CinCSG = THREE.CSG.fromMesh( Cilin );
+			var HuecoCSG = THREE.CSG.fromMesh( Hueco_ );			
+			var Hueco1CSG = THREE.CSG.fromMesh( Hueco_1 );			
+			var Hueco2CSG = THREE.CSG.fromMesh( Hueco_2 );			
+			var Hueco3CSG = THREE.CSG.fromMesh( Hueco_3 );			
+			var Hueco4CSG = THREE.CSG.fromMesh( Hueco_4 );			
+			var Hueco5CSG = THREE.CSG.fromMesh( Hueco_5 );			
+			var Hueco6CSG = THREE.CSG.fromMesh( Hueco_6 );			
+			var Hueco7CSG = THREE.CSG.fromMesh( Hueco_7 );			
+			var Hueco8CSG = THREE.CSG.fromMesh( Hueco_8 );			
+			var Hueco9CSG = THREE.CSG.fromMesh( Hueco_9 );			
+			var Hueco10CSG = THREE.CSG.fromMesh( Hueco_10 );			
+			var Hueco11CSG = THREE.CSG.fromMesh( Hueco_11);
+			
+			//APLICAR LAS OPERACIONES
+			var result = CinCSG.subtract( HuecoCSG ).subtract( Hueco1CSG ).
+			subtract( Hueco2CSG ).subtract( Hueco3CSG ).subtract( Hueco4CSG ).
+			subtract( Hueco5CSG ).subtract( Hueco6CSG ).subtract( Hueco7CSG ).
+			subtract( Hueco8CSG ).subtract( Hueco9CSG ).subtract( Hueco10CSG ).
+			subtract( Hueco11CSG )
+			
+			//CONVERTIR A THREE
+		    Cilindro_ = THREE.CSG.toMesh( result );
+			Cilindro_.material = material1;
+			
+			//AGREGAR A LA ESCENA LOS DIFERENTES ELEMENTOS
+			scene.add( Cilindro_ );
+			//ACTIVE PARA VISUALIZAR LA ESFERA
+
+			camera.position.x = 0;
+			camera.position.y = 7;
+		  	camera.position.z = 30;
+			camera.lookAt( origin );
+		}
+		function animate(){
+			requestAnimationFrame( animate );
+			controls.update();
+			render();
+		}
+		function render(){
+			renderer.render( scene, camera );
+		}
+		</script>
+
+	</body>
+
+</html>
